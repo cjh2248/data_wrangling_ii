@@ -25,6 +25,7 @@ drug_use_html = read_html(url)
 extract the table(s); focus on the first one
 
 ```{r}
+table_marj = 
 drug_use_html |>
   html_table() |>
   first() |>
@@ -32,5 +33,37 @@ drug_use_html |>
   as_tibble()
 ```
 
+## Star Wars Movie info 
 
+I want the data from [here] (https://www.imdb.com/list/ls070150896/)
+
+```{r}
+url = "https://www.imdb.com/list/ls070150896/"
+
+swm_html = read_html(url)
+```
+
+Grab elements that I want. 
+
+```{r}
+titles_vec = 
+  swm_html |>
+  html_nodes(css = ".lister-item-header a") |>
+  html_text()
+
+metascore_vec = 
+  swm_html |>
+  html_elements(".metacritic-score-box") |>
+  html_text()
+
+runtime_vec = 
+  swm_html |>
+  html_elements(".dli-title-metadata-item:nth-child(2)") |>
+  html_text()
+
+swm_df = 
+  tibble(
+    title = titles_vec, 
+    runtime = runtime_vec)
+```
 
