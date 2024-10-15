@@ -1,24 +1,24 @@
----
-title: "Strings & Factors"
-output: github_document
-date: "2024-10-16"
----
+Strings & Factors
+================
+2024-10-16
 
-```{r setup, include=FALSE}
-library(rvest)
-library(p8105.datasets)
-library(tidyverse)
-library(ggplot2)
-```
+# Let’s do strings
 
-# Let's do strings 
-```{r}
+``` r
 string_vec = c("my", "name", "is", "jeff")
 
 str_detect(string_vec, "jeff")
+```
 
+    ## [1] FALSE FALSE FALSE  TRUE
+
+``` r
 str_replace(string_vec, "e", "E")
+```
 
+    ## [1] "my"   "namE" "is"   "jEff"
+
+``` r
 string_vec = c(
   "i think we all rule for participating",
   "i think i have been caught",
@@ -27,11 +27,23 @@ string_vec = c(
   )
 
 str_detect(string_vec, "i think")
+```
 
+    ## [1] TRUE TRUE TRUE TRUE
+
+``` r
 str_detect(string_vec, "^i think") ## ^ signifies begining of the line
+```
 
+    ## [1]  TRUE  TRUE  TRUE FALSE
+
+``` r
 str_detect(string_vec, "i think$") ## end of the line
+```
 
+    ## [1] FALSE FALSE FALSE  TRUE
+
+``` r
 string_vec = c(
   "Time for a Pumpkin Spice Latte!",
   "went to the #pumpkinpatch last weekend",
@@ -40,15 +52,29 @@ string_vec = c(
   )
 
 str_detect(string_vec, "pumpkin")
+```
 
+    ## [1] FALSE  TRUE FALSE FALSE
+
+``` r
 str_detect(string_vec, "Pumpkin")
+```
 
+    ## [1]  TRUE FALSE  TRUE FALSE
+
+``` r
 str_detect(string_vec, "PUMPKIN")
+```
 
+    ## [1] FALSE FALSE FALSE  TRUE
+
+``` r
 str_detect(string_vec, "[Pp]umpkin")
 ```
 
-```{r}
+    ## [1]  TRUE  TRUE  TRUE FALSE
+
+``` r
 string_vec = c(
   '7th inning stretch',
   '1st half soon to begin. Texas won the toss.',
@@ -59,8 +85,11 @@ string_vec = c(
 str_detect(string_vec, "[0-9][a-zA-Z]")
 ```
 
-A lil weirder ... 
-```{r}
+    ## [1]  TRUE  TRUE FALSE  TRUE
+
+A lil weirder …
+
+``` r
 string_vec = c(
   'Its 7:11 in the evening',
   'want to go to 7-11?',
@@ -71,8 +100,11 @@ string_vec = c(
 str_detect(string_vec, "7.11")
 ```
 
+    ## [1]  TRUE  TRUE FALSE  TRUE
+
 how things start to get real strange
-```{r}
+
+``` r
 string_vec = c(
   'The CI is [2, 5]',
   ':-]',
@@ -83,53 +115,24 @@ string_vec = c(
 str_detect(string_vec, "\\[")
 ```
 
-## Factors 
+    ## [1]  TRUE FALSE  TRUE  TRUE
 
-```{r}
+## Factors
+
+``` r
 vec_sex = factor(c("male", "male", "female", "female"))
 
 as.numeric(vec_sex)
 ```
 
-do some releveling .... 
+    ## [1] 2 2 1 1
 
-```{r}
+do some releveling ….
+
+``` r
 sex_vec = fct_relevel(vec_sex, "male")
 
 as.numeric(vec_sex)
 ```
-```{r}
-nsduh_url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
 
-drug_use_html = read_html(url)
-
-table_marj = 
-  read_html(nsduh_url) |> 
-  html_table() |> 
-  first() |>
-  slice(-1)
-
-data_marj = 
-  table_marj |>
-  select(-contains("P Value")) |>
-  pivot_longer(
-    -State,
-    names_to = "age_year", 
-    values_to = "percent") |>
-  separate(age_year, into = c("age", "year"), sep = "\\(") |>
-  mutate(
-    year = str_replace(year, "\\)", ""),
-    percent = str_replace(percent, "[a-c]$", ""),
-    percent = as.numeric(percent)) |>
-  filter(!(State %in% c("Total U.S.", "Northeast", "Midwest", "South", "West")))
-```
-
-```{r}
-data_marj |>
-  filter(age == "12-17") |>
-  ggplot(aes(x= State, y = percent, color = year)) + 
-  geom_point
-```
-
-
-
+    ## [1] 2 2 1 1
