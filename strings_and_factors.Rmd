@@ -1,0 +1,17 @@
+---
+title: "Strings & Factors"
+output: github_document
+date: "2024-10-16"
+---
+
+```{r setup, include=FALSE}
+library(rvest)
+library(p8105.datasets)
+```
+
+```{r}
+string_vec = c("my", "name", "is", "jeff")
+
+str_detect(string_vec, "jeff")
+```
+

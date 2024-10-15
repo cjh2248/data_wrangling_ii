@@ -67,3 +67,21 @@ swm_df =
     runtime = runtime_vec)
 ```
 
+## Get some water data 
+
+This is coming from an API 
+
+```{r}
+nyc_water = 
+  GET("https://data.cityofnewyork.us/resource/ia2d-e54m.csv") %% 
+  content("text")
+```
+
+Let's get Pokemon API 
+
+```{r}
+poke = 
+  GET("http://pokeapi.co/api/v2/pokemon/1") %% 
+  content()
+```
+
